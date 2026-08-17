@@ -1,0 +1,50 @@
+CREATE TABLE Department (
+    number INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+CREATE TABLE Dep_Location (
+    dep_num INT,
+    location VARCHAR(50),
+    PRIMARY KEY (dep_num, location),
+    FOREIGN KEY (dep_num) REFERENCES Department(number)
+);
+
+CREATE TABLE Employee (
+    ssn INT PRIMARY KEY,
+    name VARCHAR(100),
+    address VARCHAR(100),
+    BD DATE,
+    gender CHAR(1),
+    Salary DECIMAL(10, 2),
+    dep_num INT,
+    Emp_superviso INT,
+    FOREIGN KEY (dep_num) REFERENCES Department(number),
+    FOREIGN KEY (Emp_superviso) REFERENCES Employee(ssn)
+);
+
+CREATE TABLE Project (
+    Number INT PRIMARY KEY,
+    name VARCHAR(50),
+    location VARCHAR(50),
+    dep_num INT,
+    FOREIGN KEY (dep_num) REFERENCES Department(number)
+);
+
+CREATE TABLE Emp_project (
+    Emp_num INT,
+    pro_num INT,
+    hours DECIMAL(5, 2),
+    PRIMARY KEY (Emp_num, pro_num),
+    FOREIGN KEY (Emp_num) REFERENCES Employee(ssn),
+    FOREIGN KEY (pro_num) REFERENCES Project(Number)
+);
+
+CREATE TABLE dependences (
+    ID INT PRIMARY KEY,
+    name VARCHAR(50),
+    BD DATE,
+    gender CHAR(1),
+    Emp_num INT,
+    FOREIGN KEY (Emp_num) REFERENCES Employee(ssn)
+);

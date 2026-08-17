@@ -1,0 +1,19 @@
+.icons-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+
+.icons-container i {
+    font-size: 40px;    
+    color: #007bff;        
+    margin: 0 15px;        
+    transition: 0.3s;     
+    cursor: pointer;
+}
+
+
+.icons-container i:hover {
+    color: #e63946;        
+    transform: scale(1.2); 
+}

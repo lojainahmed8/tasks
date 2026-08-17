@@ -1,0 +1,56 @@
+
+CREATE TABLE musician (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    St VARCHAR(100),
+    city VARCHAR(50)
+);
+
+
+CREATE TABLE instrument (
+    Name VARCHAR(100) PRIMARY KEY,
+    `Key` VARCHAR(50)
+);
+
+
+CREATE TABLE song (
+    title VARCHAR(150) PRIMARY KEY,
+    author VARCHAR(100)
+);
+
+
+CREATE TABLE album (
+    Id INT PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    cr_date DATE,
+    producer_id INT NOT NULL,
+    FOREIGN KEY (producer_id) REFERENCES musician(ID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE musician_instrument (
+    musician_id INT,
+    instrument_name VARCHAR(100),
+    PRIMARY KEY (musician_id, instrument_name),
+    FOREIGN KEY (musician_id) REFERENCES musician(ID) ON DELETE CASCADE,
+    FOREIGN KEY (instrument_name) REFERENCES instrument(Name) ON DELETE CASCADE
+);
+
+
+CREATE TABLE musician_song (
+    musician_id INT,
+    song_title VARCHAR(150),
+    PRIMARY KEY (musician_id, song_title),
+    FOREIGN KEY (musician_id) REFERENCES musician(ID) ON DELETE CASCADE,
+    FOREIGN KEY (song_title) REFERENCES song(title) ON DELETE CASCADE
+);
+
+
+CREATE TABLE song_album (
+    song_title VARCHAR(150),
+    album_id INT,
+    PRIMARY KEY (song_title, album_id),
+    FOREIGN KEY (song_title) REFERENCES song(title) ON DELETE CASCADE,
+    FOREIGN KEY (album_id) REFERENCES album(Id) ON DELETE CASCADE
+);

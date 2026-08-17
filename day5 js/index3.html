@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Task - Interactive Cart</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        
+        .cart-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+        }
+        .cart-btn:hover { background-color: #0056b3; }
+
+        .container { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+        .card { border: 1px solid #ddd; padding: 15px; width: 180px; text-align: center; border-radius: 8px; background: white; }
+        .card img { width: 100px; height: 100px; object-fit: contain; }
+        
+        button.add-btn { background-color: #28a745; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; }
+        button.add-btn:hover { background-color: #218838; }
+
+        
+        .cart-modal {
+            display: none; 
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+        }
+
+        .total-price {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: right;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>Product Store</h2>
+        
+        <div id="cart-btn" class="cart-btn">
+            🛒 Cart (<span id="cart-count">0</span>)
+        </div>
+    </header>
+
+    <div id="products-container" class="container"></div>
+
+   
+    <div id="cart-modal" class="cart-modal">
+        <h3>Your Cart</h3>
+        <div id="cart-items-list">
+            <p id="empty-msg">Cart is empty!</p>
+        </div>
+        <hr>
+        <div class="total-price">
+            Total: $<span id="total-price">0.00</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+-- 1. 
+SELECT d.number AS Dept_ID, d.name AS Dept_Name, e.ssn AS Manager_ID, e.name AS Manager_Name
+FROM Department d
+LEFT JOIN Employee e ON d.number = e.dep_num AND e.Emp_superviso IS NULL;
+
+
+-- 2. 
+SELECT d.name AS Dept_Name, p.name AS Project_Name
+FROM Department d
+JOIN Project p ON d.number = p.dep_num;
+
+-- 3. 
+SELECT dep.*, e.name AS Employee_Name
+FROM dependences dep
+JOIN Employee e ON dep.Emp_num = e.ssn;
+
+
+-- 4. 
+SELECT Number, name, location
+FROM Project
+WHERE location IN ('Cairo', 'Alex');
+
+
+-- 5. 
+SELECT * 
+FROM Project
+WHERE name LIKE 'a%' OR name LIKE 'A%';
+
+
+-- 6. 
+SELECT * 
+FROM Employee
+WHERE dep_num = 30 AND Salary BETWEEN 1000 AND 2000;
+
+
+-- 7. 
+SELECT e.name
+FROM Employee e
+JOIN Emp_project ep ON e.ssn = ep.Emp_num
+JOIN Project p ON ep.pro_num = p.Number
+WHERE e.dep_num = 10 AND ep.hours >= 10 AND p.name = 'AL Rabwah';
+
+
+-- 8. 
+SELECT e.name
+FROM Employee e
+JOIN Employee s ON e.Emp_superviso = s.ssn
+WHERE s.name = 'Kamel Mohamed';
+
+
+-- 9.
+SELECT e.name AS Employee_Name, p.name AS Project_Name
+FROM Employee e
+JOIN Emp_project ep ON e.ssn = ep.Emp_num
+JOIN Project p ON ep.pro_num = p.Number
+ORDER BY p.name;
+
+
+-- 10.
+SELECT p.Number, d.name AS Dept_Name, m.name AS Manager_Name, m.address, m.BD
+FROM Project p
+JOIN Department d ON p.dep_num = d.number
+JOIN Employee m ON d.number = m.dep_num AND m.Emp_superviso IS NULL
+WHERE p.location = 'Cairo';
+
+
+-- 11.
+SELECT DISTINCT m.*
+FROM Employee m
+WHERE m.ssn IN (SELECT DISTINCT Emp_superviso FROM Employee WHERE Emp_superviso IS NOT NULL);
+
+
+-- 12. 
+SELECT e.*, d.ID AS Dep_ID, d.name AS Dep_Name, d.gender AS Dep_Gender, d.BD AS Dep_BD
+FROM Employee e
+LEFT JOIN dependences d ON e.ssn = d.Emp_num;
+
+
+-- 13. 
+INSERT INTO Employee (ssn, name, address, BD, gender, Salary, dep_num, Emp_superviso)
+VALUES (102672, 'Lojain Ahmed', 'Cairo', '2003-01-01', 'F', 5000, 30, 112233);
+
+
+
+-- 14.
+INSERT INTO Employee (ssn, name, address, BD, gender, Salary, dep_num, Emp_superviso)
+VALUES (102660, 'Friend Name', 'Cairo', '2003-05-10', 'F', NULL, 30, NULL);
+
+
+-- 15. 
+INSERT INTO Department (number, name)
+VALUES (100, 'DEPT IT');
+
+===========DQL=====================
+
+-- 16. 
+SELECT d.name AS Dep_Name, d.gender AS Dep_Gender
+FROM dependences d
+JOIN Employee e ON d.Emp_num = e.ssn
+WHERE d.gender = 'F' AND e.gender = 'F'
+UNION
+SELECT d.name AS Dep_Name, d.gender AS Dep_Gender
+FROM dependences d
+JOIN Employee e ON d.Emp_num = e.ssn
+WHERE d.gender = 'M' AND e.gender = 'M';
+
+
+
+-- 17. 
+SELECT p.name, SUM(ep.hours) AS Total_Hours
+FROM Project p
+LEFT JOIN Emp_project ep ON p.Number = ep.pro_num
+GROUP BY p.Number, p.name;
+
+
+-- 18. 
+SELECT d.*
+FROM Department d
+JOIN Employee e ON d.number = e.dep_num
+WHERE e.ssn = (SELECT MIN(ssn) FROM Employee);
+
+
+
+-- 19. 
+SELECT d.name, MAX(e.Salary) AS Max_Salary, MIN(e.Salary) AS Min_Salary, AVG(e.Salary) AS Avg_Salary
+FROM Department d
+JOIN Employee e ON d.number = e.dep_num
+GROUP BY d.number, d.name;
+
+
+-- 20. 
+SELECT DISTINCT m.name
+FROM Employee m
+WHERE m.ssn IN (SELECT DISTINCT Emp_superviso FROM Employee WHERE Emp_superviso IS NOT NULL)
+  AND m.ssn NOT IN (SELECT DISTINCT Emp_num FROM dependences);
+
+
+========procedural==========
+
+1.
+DELIMITER $$
+CREATE PROCEDURE Show_Dept_Employees (IN p_dep INT)
+BEGIN
+  SELECT * FROM employee WHERE dep_num_fk = p_dep;
+END$$
+DELIMITER ;
+
+2. 
+CREATE PROCEDURE Show_Employee_Info (IN p_ssn INT)
+BEGIN
+  SELECT * FROM employee WHERE ssn = p_ssn;
+END$$
+DELIMITER ;
+
+3. 
+DELIMITER $$
+CREATE PROCEDURE Increase_Salary (IN p_dep INT)
+BEGIN
+  UPDATE employee
+  SET salary = salary * 1.1
+  WHERE dep_num_fk = p_dep;
+END$$
+DELIMITER ;
+ 
+4. 
+DELIMITER $$
+CREATE PROCEDURE Total_Employees (IN p_dep INT, OUT p_count INT)
+BEGIN
+  SELECT COUNT(*) INTO p_count FROM employee WHERE dep_num_fk = p_dep;
+END$$
+DELIMITER ;
+
+5. 
+DELIMITER $$
+CREATE PROCEDURE Highest_Paid_Per_Dept ()
+BEGIN
+  SELECT E.dep_num_fk, E.name, E.salary
+  FROM employee E
+  WHERE E.salary = (SELECT MAX(salary) FROM employee WHERE dep_num_fk = E.dep_num_fk);
+END$$
+DELIMITER ;
+
+
+=============transactions==================
+
+1. 
+START TRANSACTION;
+INSERT INTO Employee (ssn, name, address, BD, gender, Salary, dep_num, Emp_superviso)
+VALUES (102699, 'Tamer Ali', 'Alexandria', '1998-04-12', 'M', 4500, 10, 112233);
+COMMIT;
+
+-- 2.
+START TRANSACTION;
+INSERT INTO Employee (ssn, name, address, BD, gender, Salary, dep_num, Emp_superviso)
+VALUES (102700, 'Test User', 'Giza', '2000-01-01', 'M', 3000, 20, NULL);
+ROLLBACK;
+
+-- 3. 
+START TRANSACTION;
+UPDATE Employee 
+SET Salary = Salary * 1.05;
+ROLLBACK;
+
+-- 4.
+START TRANSACTION;
+
+INSERT INTO Employee (ssn, name, address, BD, gender, Salary, dep_num, Emp_superviso)
+VALUES (102701, 'Omar Khaled', 'Cairo', '1996-09-10', 'M', 3500, 30, 112233);
+
+SAVEPOINT AfterFirstInsert;
+
+UPDATE Employee 
+SET Salary = Salary + 500 
+WHERE dep_num = 30;
+
+ROLLBACK TO AfterFirstInsert;
+
+COMMIT;
+
+
+Indexes==============
+
+
+1. 
+CREATE INDEX idx_emp_name ON employee(name);
+ 
+2. 
+CREATE INDEX idx_emp_dep_salary ON employee(dep_num, salary);
+ 
+3. 
+SHOW INDEX FROM employee;
+ 
+4. 
+DROP INDEX idx_emp_name ON employee;
+
+5. 
+​When Indexes Improve Query Performance:
+​Faster Searching (WHERE clause): They allow the database engine to quickly locate specific rows without scanning the entire table (avoiding full table scans).
+​Optimized Joins (JOIN operations): They significantly speed up table join operations when foreign keys and primary keys are indexed.
+​Efficient Sorting and Grouping (ORDER BY & GROUP BY): They eliminate the need for additional sorting algorithms because data within the index structure is already sorted.
+​When Indexes May Reduce Query Performance:
+​Slower Data Modification (INSERT, UPDATE, DELETE): Every time data is inserted, updated, or deleted, the database must also update the corresponding index structures, causing write performance overhead.
+​Additional Storage Overhead: Indexes consume additional disk space and RAM, which can impact overall system memory management.
+​Small Tables: For small tables, reading through the index can actually take longer than simply scanning the entire table directly.
