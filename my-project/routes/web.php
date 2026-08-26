@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -7,7 +12,7 @@ Route::get('/', function () {
 });
 
 
-route::get('/students', function ()
+Route::get('/students', function ()
 {
     $students = [
         ["id" => 1, "name" => "leena", "email" => "leena@gmail.com"],
@@ -19,7 +24,7 @@ route::get('/students', function ()
     return view('allStudents', compact("students"));
 });
 
-route::get('/student/{id}', function ($id)
+Route::get('/student/{id}', function ($id)
 {
     $students = [
         ["id" => 1, "name" => "leena", "email" => "leena@gmail.com"],
@@ -36,3 +41,24 @@ route::get('/student/{id}', function ($id)
 
     return view('student', compact('student'));
 });
+
+
+//==================== Auth ===============
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+//==================== Users ===============
+
+Route::resource("users", UserController::class);
+
+
+//==================== Categories, Products, Orders ===============
+
+Route::resource("categories", CategoryController::class);
+Route::resource("products", ProductController::class);
+Route::resource("orders", OrderController::class)->except(['edit', 'update']);
