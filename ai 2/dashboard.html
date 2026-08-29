@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard & Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --panel: #ffffff;
+        --primary: #4f46e5;
+        --primary-soft: #eef2ff;
+        --secondary: #0f172a;
+        --text: #1f2937;
+        --border: #e5e7eb;
+        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      }
+      body {
+        background: linear-gradient(180deg, #f8fafc 0%, #eef4ff 100%);
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--secondary);
+        margin-bottom: 1.2rem;
+      }
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.76rem;
+        color: var(--primary);
+        background: var(--primary-soft);
+        border-radius: 999px;
+        padding: 0.45rem 0.8rem;
+        font-weight: 600;
+      }
+      .table-card, .shop-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+      .table thead th {
+        border-bottom: 1px solid var(--border);
+        background: #f8fafc;
+        color: var(--secondary);
+        font-weight: 700;
+      }
+      .badge-soft {
+        border-radius: 999px;
+        padding: 0.45rem 0.7rem;
+        font-weight: 600;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        border: none;
+      }
+      .product-card {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        transition: 0.25s ease;
+        background: white;
+        height: 100%;
+      }
+      .product-image {
+        height: 160px;
+        background: linear-gradient(135deg, #e0e7ff, #dbeafe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 2.5rem;
+      }
+      .cart-item {
+        border-bottom: 1px solid var(--border);
+        padding: 0.75rem 0;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container py-5">
+      <!-- Admin Dashboard Section -->
+      <section id="dashboard" class="mb-5">
+        <div class="mb-4">
+          <span class="section-label"><i class="bi bi-grid-1x2-fill"></i> Admin Dashboard</span>
+          <h2 class="section-title mt-3 mb-0">Platform Management</h2>
+        </div>
+
+        <div class="row g-4">
+          <!-- Categories Table -->
+          <div class="col-lg-4">
+            <div class="table-card p-3 p-md-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">Categories</h4>
+                <span class="badge badge-soft bg-primary-subtle text-primary">Live</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                  <thead>
+                    <tr><th>Name</th><th>Items</th><th>Status</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>AI Tools</td><td>128</td><td><span class="badge-soft bg-success-subtle text-success">Active</span></td></tr>
+                    <tr><td>Data Science</td><td>85</td><td><span class="badge-soft bg-success-subtle text-success">Active</span></td></tr>
+                    <tr><td>Cloud Services</td><td>62</td><td><span class="badge-soft bg-warning-subtle text-warning">Review</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Users Table -->
+          <div class="col-lg-4">
+            <div class="table-card p-3 p-md-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">Users</h4>
+                <span class="badge badge-soft bg-info-subtle text-info">Active</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                  <thead>
+                    <tr><th>Name</th><th>Role</th><th>State</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Alicia Stone</td><td>Admin</td><td><span class="badge-soft bg-success-subtle text-success">Online</span></td></tr>
+                    <tr><td>Daniel Kim</td><td>Manager</td><td><span class="badge-soft bg-success-subtle text-success">Active</span></td></tr>
+                    <tr><td>Priya Shah</td><td>Analyst</td><td><span class="badge-soft bg-warning-subtle text-warning">Away</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Table -->
+          <div class="col-lg-4">
+            <div class="table-card p-3 p-md-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">Products</h4>
+                <span class="badge badge-soft bg-success-subtle text-success">Inventory</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                  <thead>
+                    <tr><th>Product</th><th>Price</th><th>Stock</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Vision AI</td><td>$149</td><td>86</td></tr>
+                    <tr><td>DataFlow Pro</td><td>$219</td><td>54</td></tr>
+                    <tr><td>Neural Lab</td><td>$189</td><td>72</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- User Shop Section -->
+      <section id="shop">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <span class="section-label"><i class="bi bi-bag-heart"></i> User Shop</span>
+            <h2 class="section-title mt-3 mb-0">Featured Products</h2>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="text-muted me-2">Cart Items:</span>
+            <span class="badge rounded-pill bg-primary fs-6" id="cart-count">0</span>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Product List -->
+          <div class="col-lg-8">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="product-card p-3">
+                  <div class="product-image rounded"><i class="bi bi-cpu"></i></div>
+                  <h5 class="mt-3 mb-1">Neural Vision Kit</h5>
+                  <p class="text-muted small">Computer Vision Tooling</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-primary fs-5">$129</span>
+                    <button class="btn btn-primary btn-sm add-to-cart" data-name="Neural Vision Kit" data-price="129">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="product-card p-3">
+                  <div class="product-image rounded" style="background: linear-gradient(135deg, #d1fae5, #e0f2fe); color: #0f766e;"><i class="bi bi-database-check"></i></div>
+                  <h5 class="mt-3 mb-1">DataFlow Studio</h5>
+                  <p class="text-muted small">Analytics Platform</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-primary fs-5">$179</span>
+                    <button class="btn btn-primary btn-sm add-to-cart" data-name="DataFlow Studio" data-price="179">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cart Panel -->
+          <div class="col-lg-4">
+            <div class="shop-panel p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0">Your Cart</h4>
+                <button class="btn btn-sm btn-outline-danger" id="clear-cart">Clear</button>
+              </div>
+
+              <div id="cart-items">
+                <div class="text-muted py-3">Your cart is empty.</div>
+              </div>
+
+              <div class="border-top pt-3 mt-3">
+                <div class="d-flex justify-content-between fw-bold fs-5">
+                  <span>Total</span>
+                  <span id="cart-total" class="text-primary">$0</span>
+                </div>
+                <button class="btn btn-primary w-100 mt-3">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const cartItems = [];
+      const cartItemsContainer = document.getElementById('cart-items');
+      const cartCount = document.getElementById('cart-count');
+      const cartTotal = document.getElementById('cart-total');
+
+      function updateCart() {
+        cartItemsContainer.innerHTML = '';
+        if (cartItems.length === 0) {
+          cartItemsContainer.innerHTML = '<div class="text-muted py-3">Your cart is empty.</div>';
+          cartCount.textContent = '0';
+          cartTotal.textContent = '$0';
+          return;
+        }
+
+        let total = 0;
+        cartItems.forEach((item) => {
+          total += item.price;
+          const row = document.createElement('div');
+          row.className = 'cart-item d-flex justify-content-between align-items-center';
+          row.innerHTML = `
+            <div>
+              <div class="fw-semibold">${item.name}</div>
+              <small class="text-muted">Qty: 1</small>
+            </div>
+            <div class="fw-semibold text-primary">$${item.price}</div>
+          `;
+          cartItemsContainer.appendChild(row);
+        });
+
+        cartCount.textContent = String(cartItems.length);
+        cartTotal.textContent = `$${total}`;
+      }
+
+      document.querySelectorAll('.add-to-cart').forEach((button) => {
+        button.addEventListener('click', () => {
+          const name = button.dataset.name;
+          const price = Number(button.dataset.price);
+          cartItems.push({ name, price });
+          updateCart();
+        });
+      });
+
+      document.getElementById('clear-cart').addEventListener('click', () => {
+        cartItems.length = 0;
+        updateCart();
+      });
+    </script>
+  </body>
+</html>
