@@ -52,13 +52,25 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-//==================== Users ===============
+// //==================== Users ===============
 
-Route::resource("users", UserController::class);
+// Route::resource("users", UserController::class);
 
 
-//==================== Categories, Products, Orders ===============
+// //==================== Categories, Products, Orders ===============
 
-Route::resource("categories", CategoryController::class);
-Route::resource("products", ProductController::class);
-Route::resource("orders", OrderController::class)->except(['edit', 'update']);
+// Route::resource("categories", CategoryController::class);
+// Route::resource("products", ProductController::class);
+// Route::resource("orders", OrderController::class)->except(['edit', 'update']);
+
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource("users", UserController::class);
+    Route::resource("categories", CategoryController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource("products", ProductController::class);
+    Route::resource("orders", OrderController::class)->except(['edit', 'update']);
+});
